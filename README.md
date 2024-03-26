@@ -4,9 +4,9 @@
 ## To-Do List
 
 
-- [] **Find useful tools for converting Figma to Tailwind CSS**
-- [] **Working on landing plage**
-- [] **Working on Sign-in and Sign-up page**
+- [ ] **Find useful tools for converting Figma to Tailwind CSS**
+- [ ] **Working on landing plage**
+- [ ] **Working on Sign-in and Sign-up page**
 
 
 ## Tech
