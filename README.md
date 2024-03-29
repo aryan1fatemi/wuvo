@@ -4,7 +4,6 @@
 Wuvo is a chat application built with Next.js and Tailwind CSS.
 
 ## To-Do List
-
 - [ ] **Find useful tools for converting Figma to Tailwind CSS**
 - [ ] **Work on landing page**
 - [ ] **Work on Sign-in and Sign-up page**
