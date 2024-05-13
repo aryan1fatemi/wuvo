@@ -1,4 +1,5 @@
 'use client';
+import Input from "@/app/components/inputs/Input";
 import clsx from "clsx";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -43,8 +44,27 @@ const AuthForm = () => {
       //NextAuth
     }
   }
+  //social sign in
+  const social =(action: string)=> {
+    setLoading(true);
+    //social sign in with NextAuth
+  }
   return (
-    <div>AuthForm</div>
+    <div
+    className="
+    mt-8
+    sm:mx-auto
+    sm:w-full
+    sm:max-w-md
+    "
+    >
+      <div className="bg-orange-100 px-4 py-8 shadow sm:rounded-lg sm:px-10">
+        <form className="spce-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <Input label="Enail" />
+        </form>
+      </div>
+
+    </div>
   )
 }
 
