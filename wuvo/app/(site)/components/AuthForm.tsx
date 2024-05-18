@@ -1,5 +1,6 @@
 'use client';
 import Input from "@/app/components/inputs/Input";
+import Button from "@/app/components/Button";
 import clsx from "clsx";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -74,11 +75,24 @@ const AuthForm = () => {
             <Input label="Name" register={register} id="name" errors={errors}/>
           )}
           <Input label="Email" register={register} id="email" errors={errors} type="email"/>
-          <div className="flex flex-row">
-          <Input label="Password" register={register} id="password" errors={errors} type= {showPassword ? 'text' : 'password'}/>
-            <button onClick={togglePasswordVisibility}>{!showPassword ? <RiEyeCloseLine/>: <RiEyeLine/>}</button>
+          <div className="items-center flex flex-row relative">
+            <Input 
+              label="Password" 
+              register={register} 
+              id="password" 
+              errors={errors} 
+              type={showPassword ? 'text' : 'password'}
+            />
+            <button 
+              onClick={togglePasswordVisibility} 
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 pr-3 z-10 pt-6"
+            >
+              {!showPassword ? <RiEyeCloseLine /> : <RiEyeLine />}
+            </button>
           </div>
-          
+          <div className="flex justify-end">
+            <Button>Test</Button>
+          </div>
         </form>
       </div>
 

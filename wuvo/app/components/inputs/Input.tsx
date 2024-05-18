@@ -1,8 +1,9 @@
 'use client';
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { FieldErrors,FieldValues,UseFormRegister } from "react-hook-form";
-
+import { RiEyeCloseLine } from "react-icons/ri";
+import { RiEyeLine } from "react-icons/ri";
 
 //interface for input. to specify what is reqired for this object:
 interface InputProps {
@@ -25,7 +26,7 @@ const Input: React.FC<InputProps> = ({
     disabled
 }) => {
   return (
-    <div>
+    <div className="w-full">
         <label htmlFor={id} className="block text-sm font-medium text-red-900"> {/*Clicking on the label will focus on the associated input field.*/}
           {label}
         </label>
@@ -43,7 +44,7 @@ const Input: React.FC<InputProps> = ({
             errors[id] && "focus:ring-red-500" ,
             disabled && "opacity-50 cursor-not-allowed"
           )}
-          />
+          /> 
         </div>
     </div>
   )
