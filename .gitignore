@@ -27,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+/wuvo/.env*.local
 
 # vercel
 .vercel
