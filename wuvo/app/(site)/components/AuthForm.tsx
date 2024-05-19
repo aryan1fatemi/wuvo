@@ -74,9 +74,9 @@ const AuthForm = () => {
       <div className="bg-orange-50 px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "register" && (
-            <Input label="Name" register={register} id="name" errors={errors}/>
+            <Input label="Name" register={register} id="name" errors={errors} disabled={loading}/>
           )}
-          <Input label="Email" register={register} id="email" errors={errors} type="email"/>
+          <Input label="Email" register={register} id="email" errors={errors} type="email" disabled={loading}/>
           <div className="items-center flex flex-row relative">
             <Input 
               label="Password" 
@@ -84,6 +84,7 @@ const AuthForm = () => {
               id="password" 
               errors={errors} 
               type={showPassword ? 'text' : 'password'}
+              disabled={loading}
             />
             <button
               type="button" 
