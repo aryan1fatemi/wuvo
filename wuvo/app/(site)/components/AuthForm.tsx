@@ -8,6 +8,11 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import { RiEyeLine } from "react-icons/ri";
 import AuthSocialButton from "./AuthSocialButton";
 import { FaGithub,FaGoogle } from "react-icons/fa";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+
+
 //type for variant:
 type variant = "login" | "register";
 const AuthForm = () => {
@@ -33,7 +38,7 @@ const AuthForm = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
     }
@@ -43,16 +48,43 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
     if(variant === "register"){
-      //axios
+      axios.post("/api/register",data).catch(() => toast.error("Something Went Wrong!"))
+      .finally(() => setLoading(false))
     }
-    if(variant === "login"){
-      //NextAuth
+
+    if (variant === 'login') {
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid credentials');
+        }
+
+        if (callback?.ok && !callback?.error) {
+          toast.success('Logged in!');
+          //router.push('/users');
+        }
+      })
+      .finally(() => setLoading(false));
     }
   }
   //social sign in
   const social =(action: string)=> {
     setLoading(true);
-    //social sign in with NextAuth
+    signIn(action,{ redirect: false })
+    .then((callback)=>{
+
+      if (callback?.error) {
+        toast.error('Invalid credentials');
+      }
+
+      if (callback?.ok && !callback?.error) {
+        toast.success('Logged in!');
+      }
+
+    }).finally(() => setLoading(false))
 
   }
     //togle the password:
@@ -99,6 +131,7 @@ const AuthForm = () => {
               disabled={loading}
               fullWidth
               type="submit"
+              onClick={()=>{setShowPassword(false)}}
               >
               {variant === 'login' ? "Sign in" : "Register"}
             </Button>
