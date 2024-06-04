@@ -2,20 +2,42 @@
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import clsx from "clsx";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { RiEyeLine } from "react-icons/ri";
 import AuthSocialButton from "./AuthSocialButton";
 import { FaGithub,FaGoogle } from "react-icons/fa";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+
+
 //type for variant:
 type variant = "login" | "register";
 const AuthForm = () => {
+  //use session:
+  const session = useSession();
+
+  //use router:
+  const router = useRouter();
+
   //state for variant
   // the deafault is login, the other option is register
   const [variant, setVariant] = useState<variant>("login");
   //loading state to disable buttons while loading
   const [loading, setLoading] = useState(false);
+
+  //use form to check if the current session is authenticated:
+  useEffect(() => {
+    if(session?.status === "authenticated"){
+      router.push("/users");
+    }
+  },[session?.status,router])
+
+
   //useCallBack to handle the variant change:
   const toggleVariant = useCallback(() => {
     if(variant === "login"){
@@ -33,7 +55,7 @@ const AuthForm = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      username: "",
+      name: "",
       email: "",
       password: "",
     }
@@ -43,16 +65,48 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setLoading(true);
     if(variant === "register"){
-      //axios
+      axios.post("/api/register",data)
+      .then(() => {
+        toast.success("User Created!");
+        signIn("credentials", data)
+      })
+      .catch(() => toast.error("Something Went Wrong!"))
+      .finally(() => setLoading(false))
     }
-    if(variant === "login"){
-      //NextAuth
+
+    if (variant === 'login') {
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid credentials');
+        }
+
+        if (callback?.ok && !callback?.error) {
+          toast.success('Logged in!');
+          router.push('/users');
+        }
+      })
+      .finally(() => setLoading(false));
     }
   }
   //social sign in
   const social =(action: string)=> {
     setLoading(true);
-    //social sign in with NextAuth
+    signIn(action,{ redirect: false })
+    .then((callback)=>{
+
+      if (callback?.error) {
+        toast.error('Invalid credentials');
+      }
+
+      if (callback?.ok && !callback?.error) {
+        toast.success('Logged in!');
+      }
+
+    }).finally(() => setLoading(false))
 
   }
     //togle the password:
@@ -99,6 +153,7 @@ const AuthForm = () => {
               disabled={loading}
               fullWidth
               type="submit"
+              onClick={()=>{setShowPassword(false)}}
               >
               {variant === 'login' ? "Sign in" : "Register"}
             </Button>
