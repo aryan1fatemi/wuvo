@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 import useConversation from "./useConversation";
 import { BsChatTextFill } from "react-icons/bs";
 import { FaSignOutAlt } from "react-icons/fa";
-import { FaUser } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 const useRoutes = () => {
     const pathname = usePathname();
     const { conversationId } = useConversation();
@@ -19,7 +19,7 @@ const useRoutes = () => {
       { 
         label: 'Users', 
         href: '/users', 
-        icon: FaUser, 
+        icon: FaUsers , 
         active: pathname === '/users'
       },
       {
