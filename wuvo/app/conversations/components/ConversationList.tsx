@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import useConversation from "@/app/hooks/useConversation";
 import clsx from "clsx";
+import ConversationBox from "./ConversationBox";
 
 // defining interfaces:
 interface ConversationListProps{
@@ -39,14 +40,14 @@ const ConversationList:React.FC<ConversationListProps> = ({initialItems}) => {
         <div className="px-5">
             <div className="flex justify-between mb-4 pt-4">
                 <div className="text-2xl font-bold text-red-900">
-
+                  Messages
                 </div>
-                <div>
-                  <MdOutlineGroupAdd />
+                <div className="text-red-900 rounded-full p-2 bg-stone-50 cursor-pointer hover:opacity-75 transition">
+                  <MdOutlineGroupAdd size={20}/>
                 </div>
             </div>
+            {items.map((item) => (<ConversationBox key ={item.id} data={item} selected={conversationId===item.id}/>))}
         </div>
-
     </aside>
   )
 }
