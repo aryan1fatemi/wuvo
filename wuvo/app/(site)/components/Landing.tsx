@@ -11,7 +11,7 @@ const Landing = () => {
           height="500"
           width="500"
           className="mx-auto w-auto"
-          src='/images/frame.png'
+          src='/images/phone.mp4'
           alt="Phone"/>
       </div>
     </div>
