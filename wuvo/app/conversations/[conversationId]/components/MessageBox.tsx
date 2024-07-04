@@ -59,6 +59,13 @@ const MessageBox: React.FC<MessageBoxProps> = ({data, isLast}) => {
                     <div>{data.body}</div>
                 )}
             </div>
+            {
+              isLast && isOwn && seenList.length > 0 && (
+                  <div className="text-xs text-stone-400 font-light">
+                      {seenList}
+                  </div>
+              )
+            }
         </div>
     </div>
   )
