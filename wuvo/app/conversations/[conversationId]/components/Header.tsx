@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({conversation}) => {
             </div>
           </div>
           </div>
-          <HiOutlineEllipsisHorizontalCircle size={32} onClick={() => {}} className="text-orange-500 hover:text-orange-600 cursor-pointer transition"/>
+          <HiOutlineEllipsisHorizontalCircle size={32} onClick={() => setDrawerOpen(true)} className="text-orange-500 hover:text-orange-600 cursor-pointer transition"/>
       </div>
     </>
   )
