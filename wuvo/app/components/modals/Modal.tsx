@@ -1,7 +1,7 @@
 'use client';
 
 import React, { Fragment } from 'react'
-import { Dialog, DialogPanel, Transition } from '@headlessui/react'
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { IoClose } from 'react-icons/io5'
 
 interface ModalProps {
@@ -14,7 +14,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               transition-opacity
             "
           />
-        </Transition>
+        </TransitionChild>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div 
@@ -46,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
               sm:p-0
             "
           >
-            <Transition
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -107,7 +107,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                 </div>
                 {children}
               </DialogPanel>
-            </Transition>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>

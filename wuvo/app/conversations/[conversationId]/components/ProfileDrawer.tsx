@@ -9,7 +9,6 @@ import { format } from 'date-fns';
 import useOtherUser from '@/app/hooks/useOtherUser';
 import Avatar from '@/app/components/Avatar';
 import AvatarGroup from '@/app/components/AvatarGroup';
-import Modal from '@/app/components/Modal';
 import ConfirmModal from './ConfirmModal';
 
 interface ProfileDrawerProps {
