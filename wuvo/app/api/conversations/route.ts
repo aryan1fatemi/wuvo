@@ -27,10 +27,11 @@ export async function POST(request: Request) {
         const newConversation = await prisma.conversation.create({
           data: {
             name,
+            isGroup,
             users: {
               connect: [
-                ...members.map((member: { value: string }) => ({
-                  id: member.value
+                ...members.map((member: { value: string }) => ({  
+                  id: member.value 
                 })),
                 {
                   id: currentUser.id

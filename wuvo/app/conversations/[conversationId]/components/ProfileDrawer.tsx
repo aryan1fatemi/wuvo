@@ -10,6 +10,7 @@ import useOtherUser from '@/app/hooks/useOtherUser';
 import Avatar from '@/app/components/Avatar';
 import AvatarGroup from '@/app/components/AvatarGroup';
 import ConfirmModal from './ConfirmModal';
+import React from 'react';
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -53,12 +54,12 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                 <div className="absolute inset-0 overflow-hidden">
                     <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
                         <TransitionChild as={Fragment}
-                    enter="transform transition ease-in-out duration-500"
-                    enterFrom="translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transform transition ease-in-out duration-500"
-                    leaveFrom="translate-x-0"
-                    leaveTo="translate-x-full">
+                            enter="transform transition ease-in-out duration-500"
+                            enterFrom="translate-x-full"
+                            enterTo="translate-x-0"
+                            leave="transform transition ease-in-out duration-500"
+                            leaveFrom="translate-x-0"
+                            leaveTo="translate-x-full">
 
                             <DialogPanel className="pointer-events-auto w-screen max-w-md">
                             <div className="flex h-full flex-col overflow-y-scroll bg-orange-50 py-6 shadow-xl">
@@ -109,17 +110,25 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                             sm:flex-shrink-0
                                             "
                                         >
-                                            Emails
+                                            Users
                                         </dt>
                                         <dd 
                                             className="
-                                            mt-1 
-                                            text-sm 
-                                            text-gray-900 
-                                            sm:col-span-2
+                                                mt-1 
+                                                text-sm 
+                                                text-stone-900 
+                                                sm:col-span-2
                                             "
                                         >
-                                            {data.users.map((user) => user.email).join(', ')}
+                                            {data.users.map((user, index) => (
+                                                <div className='flex flex-row items-center gap-2 py-2'>
+                                                <React.Fragment key={user.id}>
+                                                    <Avatar user={user} />
+                                                    {user.name}
+                                                    {index < data.users.length - 1 && <br />}
+                                                </React.Fragment>
+                                                </div>
+                                            ))}
                                         </dd>
                                         </div>
                                     )}
