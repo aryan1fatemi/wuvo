@@ -126,7 +126,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                             "
                                         >
                                             {data.users.map((user, index) => (
-                                                <div className='flex flex-row items-center gap-2 py-2'>
+                                                <div className='flex flex-row items-center gap-2 py-2' key={user.id}>
                                                 <React.Fragment key={user.id}>
                                                     <Avatar user={user} />
                                                     {user.name}
