@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
-import useConversation from "@/app/hooks/useConversation";
-import { FullMessageType } from "@/app/types";
-import { useEffect, useRef, useState } from "react";
-import MessageBox from "./MessageBox";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+
 import { pusherClient } from "@/app/libs/pusher";
+import useConversation from "@/app/hooks/useConversation";
+import MessageBox from "./MessageBox";
+import { FullMessageType } from "@/app/types";
 import { find } from "lodash";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
 }
 
-const Body: React.FC<BodyProps> = ({initialMessages}) => {
-
-  const [messages,setMessages] = useState(initialMessages)
-  const bottomRef = useRef<HTMLDivElement>(null)
+const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState(initialMessages);
+  
   const { conversationId } = useConversation();
-  //useEffect to post a request when the message is open:
-  useEffect(() => {
-    axios.post(`/api/conversations/${conversationId}/seen`)
-  },[conversationId])
 
-  //useEffect for pusher:
+  useEffect(() => {
+    axios.post(`/api/conversations/${conversationId}/seen`);
+  }, [conversationId]);
+
   useEffect(() => {
     pusherClient.subscribe(conversationId)
     bottomRef?.current?.scrollIntoView();
@@ -62,12 +62,18 @@ const Body: React.FC<BodyProps> = ({initialMessages}) => {
     }
   }, [conversationId]);
 
-  return (
+  return ( 
     <div className="flex-1 overflow-y-auto">
-      {messages.map((message,i) => (<MessageBox isLast = {i === messages.length -1} key = {message.id} data={message}/>))}
-      <div className="pt-24" ref={bottomRef} />
+      {messages.map((message, i) => (
+        <MessageBox 
+          isLast={i === messages.length - 1} 
+          key={message.id} 
+          data={message}
+        />
+      ))}
+      <div className="pt-10" ref={bottomRef} />
     </div>
-  )
+  );
 }
-
-export default Body
+ 
+export default Body;

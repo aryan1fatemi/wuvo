@@ -10,6 +10,7 @@ import { FullConversationType } from "@/app/types";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import Avatar from "@/app/components/Avatar";
 import AvatarGroup from "@/app/components/AvatarGroup";
+import { FaCircle, FaExclamationCircle } from "react-icons/fa";
 
 //define interfaces:
 interface ConversationBoxProps{
@@ -96,15 +97,20 @@ const ConversationBox:React.FC<ConversationBoxProps> = ({data,selected}) => {
                         (<p className="text-xs text-stone-400 font-light">{format(new Date(lastMessage.createdAt),'p')}</p>)
                     }
                 </div>
+                <div className="flex flex-row gap-1 items-center">
+                {!hasSeen && <FaExclamationCircle  className="text-orange-500" size={14}/>}
                 <p 
                 className={clsx(`
                 truncate 
                 text-sm
                 `,
-              hasSeen ? 'text-stone-500' : 'text-black font-small'
+               hasSeen ? 'text-stone-500' : 'text-black font-medium'
                 )}>
               {lastMessageText}
+              
             </p>
+            
+            </div>
             </div>
         </div>
     </div>

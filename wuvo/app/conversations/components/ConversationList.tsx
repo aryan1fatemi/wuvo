@@ -11,6 +11,8 @@ import useConversation from "@/app/hooks/useConversation";
 import clsx from "clsx";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "@/app/components/modals/GroupChatModal";
+import { pusherClient } from "@/app/libs/pusher";
+import { find } from "lodash";
 
 
 // defining interfaces:
@@ -28,6 +30,53 @@ const ConversationList:React.FC<ConversationListProps> = ({initialItems,users}) 
     const session = useSession();
   
     const { conversationId, isOpen } = useConversation();
+
+    const pusherKey = useMemo(()=>{return session.data?.user?.email},[session.data?.user?.email])
+
+    useEffect(() => {
+      if (!pusherKey) {
+        return;
+      }
+  
+      pusherClient.subscribe(pusherKey);
+  
+      const updateHandler = (conversation: FullConversationType) => {
+        setItems((current) => current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages
+            };
+          }
+  
+          return currentConversation;
+        }));
+      }
+  
+      const newHandler = (conversation: FullConversationType) => {
+        setItems((current) => {
+          if (find(current, { id: conversation.id })) {
+            return current;
+          }
+  
+          return [conversation, ...current]
+        });
+      }
+  
+      const removeHandler = (conversation: FullConversationType) => {
+        setItems((current) => {
+          return [...current.filter((convo) => convo.id !== conversation.id)]
+        });
+        if (conversationId === conversation.id) {
+          router.push('/conversations');
+        }
+      }
+  
+      pusherClient.bind('conversation:update', updateHandler)
+      pusherClient.bind('conversation:new', newHandler)
+      pusherClient.bind('conversation:remove', removeHandler)
+    }, [pusherKey, router,conversationId]);
+
   return (
     <>
       <GroupChatModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} users={users}/>
