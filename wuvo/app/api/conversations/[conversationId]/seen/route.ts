@@ -14,13 +14,14 @@ export async function POST(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    const {
-      conversationId
-    } = params;
+    const { conversationId } = params;
 
-    
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    if (!conversationId) {
+      return new NextResponse('Invalid ID', { status: 400 });
     }
 
     // Find existing conversation
@@ -79,11 +80,11 @@ export async function POST(
     }
 
     // Update last message seen
-    await pusherServer.trigger(conversationId!, 'message:update', updatedMessage);
+    await pusherServer.trigger(conversationId, 'message:update', updatedMessage);
 
     return new NextResponse('Success');
   } catch (error) {
-    console.log(error, 'ERROR_MESSAGES_SEEN')
+    console.log(error, 'ERROR_MESSAGES_SEEN');
     return new NextResponse('Error', { status: 500 });
   }
 }
